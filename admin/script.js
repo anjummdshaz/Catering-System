@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
-import { getDatabase, set, ref, get , remove} from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
+import { getDatabase, set, ref, get, remove } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
 import { getAuth, signOut, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
 import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-storage.js";
 
@@ -58,25 +58,25 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-if(window.location.href.includes("/admin/index1.html")){
+if (window.location.href.includes("/admin/index1.html")) {
   const loginButton = document.querySelector("#loginButton");
 
-loginButton.addEventListener("click", () => {
-  const email = document.querySelector("#email").value;
-  const password = document.querySelector("#password").value;
+  loginButton.addEventListener("click", () => {
+    const email = document.querySelector("#email").value;
+    const password = document.querySelector("#password").value;
 
-  signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Successful login
-      const user = userCredential.user;
-      console.log("Login successful:", user.uid);
-      window.location.href = "index.html"; // Redirect to the admin dashboard or index page
-    })
-    .catch((error) => {
-      console.error("Error during login:", error.message);
-      alert("Login failed: " + error.message); // Show error to the user
-    });
-});
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Successful login
+        const user = userCredential.user;
+        console.log("Login successful:", user.uid);
+        window.location.href = "index.html"; // Redirect to the admin dashboard or index page
+      })
+      .catch((error) => {
+        console.error("Error during login:", error.message);
+        alert("Login failed: " + error.message); // Show error to the user
+      });
+  });
 
 }
 // Post data functionality
@@ -483,9 +483,14 @@ if (window.location.href.includes("/user/index1.html")) {
     });
   });
 }
-if(window.location.href.includes("index.html")){
-const showOrders = document.querySelector("#showOrders")
-  showOrders.addEventListener('click',()=>{
+if (window.location.href.includes("index.html")) {
+  const showOrders = document.querySelector("#showOrders")
+  showOrders.addEventListener('click', () => {
     window.location.href = "index3.html"
   })
+}
+
+
+if (window.location.href.includes("index.html")) {
+  window.location.href = "./admin/index.html"
 }
