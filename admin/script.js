@@ -33,7 +33,7 @@ const db = getDatabase(app);
 //       console.log("index.html");
 //     }
 //     if (window.location.href.includes("/admin/index1.html")) {
-//       window.location.href = "/admin/index.html";
+//       window.location.href = "";
 //     }
 //   }
 // });
@@ -488,9 +488,4 @@ if (window.location.href.includes("index.html")) {
   showOrders.addEventListener('click', () => {
     window.location.href = "index3.html"
   })
-}
-
-
-if (window.location.href.includes("index.html")) {
-  window.location.href = "./admin/index.html"
 }
