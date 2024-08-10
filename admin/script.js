@@ -26,32 +26,59 @@ const storage = getStorage(app);
 const auth = getAuth(app);
 const db = getDatabase(app);
 
+// // Authentication state change
+// onAuthStateChanged(auth, (user) => {
+//   if (user) {
+//     if (window.location.href.includes("index.html")) {
+//       console.log("index.html");
+//     }
+//     if (window.location.href.includes("/admin/index1.html")) {
+//       window.location.href = "/admin/index.html";
+//     }
+//   }
+// });
 // Authentication state change
 onAuthStateChanged(auth, (user) => {
   if (user) {
-    if (window.location.href.includes("index.html")) {
-      console.log("index.html");
+    console.log("User is logged in:", user.uid);
+    // Check if the user is an admin (this is an example, adjust based on your actual logic)
+    if (user.uid === 'admin-uid') {  // Replace 'admin-uid' with the actual admin UID or use a custom claim
+      if (window.location.href.includes("index.html")) {
+        console.log("Admin on index.html");
+      }
+      if (window.location.href.includes("index1.html")) {
+        window.location.href = "index.html";
+      }
+    } else {
+      console.log("Non-admin user logged in.");
+      // Redirect or show an error message if the user is not an admin
     }
-    if (window.location.href.includes("login.html")) {
-      window.location.href = "index.html";
-    }
+  } else {
+    console.log("No user is logged in.");
   }
 });
 
-// Login functionality
-if (window.location.href.includes("login.html")) {
-  const loginPage = document.querySelector(".login");
-  const loginButton = document.querySelector(".butt");
+if(window.location.href.includes("/admin/index1.html")){
+  const loginButton = document.querySelector("#loginButton");
 
-  loginButton.addEventListener("click", () => {
-    const email = document.querySelector("#email").value;
-    const password = document.querySelector("#password").value;
-    signInWithEmailAndPassword(auth, email, password).then((userInfo) => {
-      console.log(userInfo.user.uid);
+loginButton.addEventListener("click", () => {
+  const email = document.querySelector("#email").value;
+  const password = document.querySelector("#password").value;
+
+  signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // Successful login
+      const user = userCredential.user;
+      console.log("Login successful:", user.uid);
+      window.location.href = "index.html"; // Redirect to the admin dashboard or index page
+    })
+    .catch((error) => {
+      console.error("Error during login:", error.message);
+      alert("Login failed: " + error.message); // Show error to the user
     });
-  });
-}
+});
 
+}
 // Post data functionality
 if (window.location.href.includes("index.html")) {
   const postPage = document.querySelector("#postPage");
@@ -104,12 +131,12 @@ if (window.location.href.includes("index.html")) {
   });
 
   postPage.addEventListener('click', () => {
-    window.location.href = "hero.html";
+    window.location.href = "index2.html";
   });
 
   logoutButton.addEventListener("click", () => {
     signOut(auth).then(() => {
-      window.location.href = "/user/home.html";
+      window.location.href = "/user/index.html";
     }).catch((error) => {
       console.log("Error: " + error);
     });
@@ -158,7 +185,7 @@ if (window.location.href.includes("index.html")) {
         imageURL: imageURL
       }).then(() => {
         alert("Data updated successfully!");
-        window.location.href = "hero.html";
+        window.location.href = "index2.html";
       }).catch((error) => {
         console.error('Error updating data:', error);
       });
@@ -167,7 +194,7 @@ if (window.location.href.includes("index.html")) {
 }
 
 // Navigation functionality in hero.html
-if (window.location.href.includes("hero.html")) {
+if (window.location.href.includes("/admin/index2.html")) {
   const backButton = document.querySelector(".backbutt");
   const logoutButton = document.querySelector("#logout");
 
@@ -177,7 +204,7 @@ if (window.location.href.includes("hero.html")) {
 
   logoutButton.addEventListener("click", () => {
     signOut(auth).then(() => {
-      window.location.href = "/user/home.html";
+      window.location.href = "/user/index.html";
     }).catch((error) => {
       console.log("Error: " + error);
     });
@@ -306,7 +333,7 @@ function deleteOrder(orderId) {
 }
 
 // Call displayOrders when the page loads
-if (window.location.pathname.endsWith("adminorders.html")) {
+if (window.location.pathname.endsWith("index3.html")) {
   displayOrders();
 }
 
@@ -446,7 +473,7 @@ function userPostData() {
 }
 
 // Call userPostData and setup cart buy buttons on products.html
-if (window.location.pathname.endsWith("products.html")) {
+if (window.location.href.includes("/user/index1.html")) {
   userPostData().then(() => {
     const buyButtons = document.querySelectorAll(".productbuybutt");
     buyButtons.forEach(buyButton => {
@@ -459,6 +486,6 @@ if (window.location.pathname.endsWith("products.html")) {
 if(window.location.href.includes("index.html")){
 const showOrders = document.querySelector("#showOrders")
   showOrders.addEventListener('click',()=>{
-    window.location.href = "adminorders.html"
+    window.location.href = "index3.html"
   })
 }
